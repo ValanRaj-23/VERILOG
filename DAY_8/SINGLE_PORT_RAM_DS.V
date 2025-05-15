@@ -3,7 +3,8 @@ module ram(	input clk, rst, en, wr,
 		input[1:0]addr,
 		output reg [3:0] data_out);
 
-reg [3:0] mem [3:0];
+	reg [3:0] mem [3:0];
+  reg [3:0] temp;
 
 
 always@(posedge clk)
@@ -15,7 +16,9 @@ begin
 	if(en && wr)
 		mem[addr] <= data_in;
 	else if (en && !wr)
-	data_out <= mem[addr];
+		temp <= mem[addr];
 end
 
+  assign data_out = en && !wr ? temp : 'bz;
+  
 endmodule
